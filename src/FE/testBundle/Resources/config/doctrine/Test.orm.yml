@@ -1,0 +1,16 @@
+FE\testBundle\Entity\Test:
+    type: entity
+    table: null
+    repositoryClass: FE\testBundle\Repository\TestRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+            nullable: true
+    lifecycleCallbacks: {  }

@@ -1,0 +1,3 @@
+f_etest_homepage:
+    path:     /
+    defaults: { _controller: FEtestBundle:Test:test }

@@ -1,0 +1,4 @@
+f_etest:
+    resource: "@FEtestBundle/Resources/config/routing.yml"
+    prefix:   /
+
