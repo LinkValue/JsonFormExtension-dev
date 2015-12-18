@@ -1,5 +1,12 @@
 services:
     form.extension.jsonExtension:
         class: FE\testBundle\Form\Extension\Type\FormTypeJsonExtension
+        arguments: ['@form.extension.jsonExtension.requestHandler']
         tags:
             - { name: form.type_extension, extended_type: 'Symfony\Component\Form\Extension\Core\Type\FormType' }
+    form.extension.jsonExtension.requestHandler:
+        class: FE\testBundle\Form\Extension\JsonRequestHandler
+    form.extension.jsonExtension.listener:
+        class: FE\testBundle\Form\Extension\JsonExtensionListener
+        tags:
+            - { name: kernel.event_subscriber }

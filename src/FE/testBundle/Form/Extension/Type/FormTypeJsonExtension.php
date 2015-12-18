@@ -2,44 +2,31 @@
 
 namespace FE\testBundle\Form\Extension\Type;
 
-use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\HttpFoundation\Type\FormTypeHttpFoundationExtension;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
 use Symfony\Component\Form\RequestHandlerInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use FE\testBundle\Form\Extension\JsonExtensionListener;
 
-class FormTypeJsonExtension extends AbstractTypeExtension
+class FormTypeJsonExtension extends FormTypeHttpFoundationExtension
 {
-    /**
-     * @var RequestHandlerInterface
-     */
-    private $requestHandler;
-
-    /**
-     * @param RequestHandlerInterface $requestHandler
-     */
-    public function __construct(RequestHandlerInterface $requestHandler = null)
-    {
-        var_dump('coucou');die();
-        $this->requestHandler = new HttpFoundationRequestHandler();
-        var_dump('fin coucou');die();
-    }
-
-    /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
-     */
-    public function getExtendedType()
-    {
-        return 'Symfony\Component\Form\Extension\Core\Type\FormType';
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setRequestHandler($this->requestHandler);
-        //$builder->add('toto');
+        if (array_key_exists('json_format', $options) && $options['json_format']) {
+            $builder->addEventSubscriber(new JsonExtensionListener());
+        }
     }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('json_format', false);
+    }
+
 }

@@ -1,4 +1,4 @@
-/ap/bootstrap.php.cache
+/app/bootstrap.php.cache
 /app/cache/*
 !app/cache/.gitkeep
 /app/config/parameters.yml

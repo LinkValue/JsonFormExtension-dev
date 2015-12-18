@@ -18,14 +18,16 @@ class TestType extends AbstractType
             ->add('name')
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FE\testBundle\Entity\Test'
+            'data_class' => 'FE\testBundle\Entity\Test',
+            'csrf_protection' => false,
+            'json_format' => true,
         ));
     }
 }
