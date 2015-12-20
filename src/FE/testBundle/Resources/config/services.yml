@@ -4,6 +4,8 @@ services:
         arguments: ['@form.extension.jsonExtension.requestHandler']
         tags:
             - { name: form.type_extension, extended_type: 'Symfony\Component\Form\Extension\Core\Type\FormType' }
+    form.type_extension.form.http_foundation:
+        alias: form.extension.jsonExtension
     form.extension.jsonExtension.requestHandler:
         class: FE\testBundle\Form\Extension\JsonRequestHandler
     form.extension.jsonExtension.listener:
