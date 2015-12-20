@@ -50,9 +50,9 @@ class JsonExtensionListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidJsonShouldThrowHttpExceptionError()
     {
-        $this->setExpectedException(
+        $this->setExpectedExceptionRegExp(
           'Symfony\Component\HttpKernel\Exception\HttpException',
-          'Invalid submitted json data, error 4 : Syntax error, json : aze'
+          '/^Invalid submitted json data, error (.*) : (.*), json : aze$/'
         );
         $json = 'aze';
 
