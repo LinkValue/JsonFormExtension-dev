@@ -3,13 +3,23 @@
 namespace FE\testBundle\Form\Extension;
 
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
+use Symfony\Component\Form\RequestHandlerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class JsonRequestHandler extends HttpFoundationRequestHandler
+class JsonRequestHandler implements RequestHandlerInterface
 {
     /**
-     * {@inherit}
+     * @var HttpFoundationRequestHandler
+     */
+    private $httpFoundationRequestHandler;
+
+    public function __construct(HttpFoundationRequestHandler $httpFoundationRequestHandler)
+    {
+        $this->httpFoundationRequestHandler = $httpFoundationRequestHandler;
+    }
+    /**
+     * {@inheritdoc}
      */
     public function handleRequest(FormInterface $form, $request = null)
     {
@@ -17,8 +27,9 @@ class JsonRequestHandler extends HttpFoundationRequestHandler
             throw new UnexpectedTypeException($request, 'Symfony\Component\HttpFoundation\Request');
         }
 
-        if ($request->headers->get('content-type') !== 'application/json') {
-            parent::handleRequest($form, $request);
+        if ($request->getContentType() !== 'json') {
+            $this->httpFoundationRequestHandler->handleRequest($form, $request);
+
             return;
         }
 

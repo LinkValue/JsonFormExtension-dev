@@ -8,6 +8,7 @@ services:
         alias: form.extension.jsonExtension
     form.extension.jsonExtension.requestHandler:
         class: FE\testBundle\Form\Extension\JsonRequestHandler
+        arguments: ['@form.type_extension.form.request_handler']
     form.extension.jsonExtension.listener:
         class: FE\testBundle\Form\Extension\JsonExtensionListener
         tags:

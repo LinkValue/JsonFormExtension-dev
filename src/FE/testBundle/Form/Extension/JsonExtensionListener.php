@@ -12,7 +12,7 @@ class JsonExtensionListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FormEvents::PRE_SUBMIT => 'onPreSubmit'
+            FormEvents::PRE_SUBMIT => 'onPreSubmit',
             );
     }
 
@@ -31,5 +31,4 @@ class JsonExtensionListener implements EventSubscriberInterface
         }
         $event->setData($data);
     }
-
 }

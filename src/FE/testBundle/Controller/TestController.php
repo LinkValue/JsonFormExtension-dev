@@ -21,11 +21,12 @@ class TestController extends Controller
             $_SERVER,
             '{ "name": "test1" }'
         );
-        $request->headers->set('Content-Type', 'application/json');
+        $request->headers->set('CONTENT_TYPE', 'application/json');
         $form = $this->container->get('form.factory')->create(TestType::class, new Test());
         //$form->submit('{ "name": "test1" }');
         // return new Response();
         $form->handleRequest($request);
+
         return $this->render('FEtestBundle:Default:test.html.twig', array('form' => $form->createView()));
     }
 }
