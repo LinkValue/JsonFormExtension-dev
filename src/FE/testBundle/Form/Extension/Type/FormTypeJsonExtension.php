@@ -19,6 +19,7 @@ class FormTypeJsonExtension extends FormTypeHttpFoundationExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
         if (array_key_exists('json_format', $options) && $options['json_format']) {
             $builder->addEventSubscriber(new JsonExtensionListener());
         }

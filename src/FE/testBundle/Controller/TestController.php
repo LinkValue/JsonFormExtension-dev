@@ -10,9 +10,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TestController extends Controller
 {
-    public function testAction(Request $request)
+    public function testAction()
     {
-        $request->headers->set('Content-Tpe', 'application/json');
+        $request = new Request(
+            $_GET,
+            $_POST,
+            array(),
+            $_COOKIE,
+            $_FILES,
+            $_SERVER,
+            '{ "name": "test1" }'
+        );
+        $request->headers->set('Content-Type', 'application/json');
         $form = $this->container->get('form.factory')->create(TestType::class, new Test());
         //$form->submit('{ "name": "test1" }');
         // return new Response();
