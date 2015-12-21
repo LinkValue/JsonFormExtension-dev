@@ -52,9 +52,9 @@ class JsonExtensionListenerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedExceptionRegExp(
           'Symfony\Component\HttpKernel\Exception\HttpException',
-          '/^Invalid submitted json data, error (.*) : (.*), json : aze$/'
+          '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
-        $json = 'aze';
+        $json = 'invalid json';
 
         \Phake::when($this->formEvent)
             ->getData()
