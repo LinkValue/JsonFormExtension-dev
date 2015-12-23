@@ -51,7 +51,7 @@ class JsonExtensionListenerTest extends \PHPUnit_Framework_TestCase
     public function testInvalidJsonShouldThrowHttpExceptionError()
     {
         $this->setExpectedExceptionRegExp(
-          'Symfony\Component\HttpKernel\Exception\HttpException',
+          'InvalidArgumentException',
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $json = 'invalid json';

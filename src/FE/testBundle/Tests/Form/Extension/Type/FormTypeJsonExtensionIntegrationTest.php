@@ -46,7 +46,7 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
     public function testSubmitInvalidJsonShouldThrowException()
     {
         $this->setExpectedExceptionRegExp(
-          'Symfony\Component\HttpKernel\Exception\HttpException',
+          'InvalidArgumentException',
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $this->form->submit('invalid json');
@@ -64,7 +64,7 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
     public function testRequestWithInvalidJsonShouldTHrowException()
     {
         $this->setExpectedExceptionRegExp(
-          'Symfony\Component\HttpKernel\Exception\HttpException',
+          'InvalidArgumentException',
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $request = $this->getRequest('invalid json');

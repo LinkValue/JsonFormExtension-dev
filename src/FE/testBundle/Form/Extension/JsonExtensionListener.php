@@ -5,7 +5,6 @@ namespace FE\testBundle\Form\Extension;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class JsonExtensionListener implements EventSubscriberInterface
 {
@@ -22,7 +21,7 @@ class JsonExtensionListener implements EventSubscriberInterface
         $baseData = $data;
         $data = @json_decode($data, true);
         if (null === $data) {
-            throw new HttpException(400, sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Invalid submitted json data, error %s : %s, json : %s',
                 json_last_error(),
                 json_last_error_msg(),
