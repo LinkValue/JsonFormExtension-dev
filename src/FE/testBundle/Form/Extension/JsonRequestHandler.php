@@ -5,6 +5,7 @@ namespace FE\testBundle\Form\Extension;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
 use Symfony\Component\Form\RequestHandlerInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpFoundation\Request;
 
 class JsonRequestHandler implements RequestHandlerInterface
