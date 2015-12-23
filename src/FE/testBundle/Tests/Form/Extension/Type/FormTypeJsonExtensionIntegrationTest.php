@@ -52,6 +52,15 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
         $this->form->submit('invalid json');
     }
 
+    public function testSubmitWithoutStringShouldThrowException()
+    {
+        $this->setExpectedExceptionRegExp(
+          'InvalidArgumentException',
+          '/^Invalid argument: the submitted variable must be a string when you enable the json_format option.$/'
+        );
+        $this->form->submit(['invalid json']);
+    }
+
     public function testRequestWithValidJsonShouldPopulateForm()
     {
         $request = $this->getRequest('{ "name": "test1" }');
@@ -68,6 +77,16 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $request = $this->getRequest('invalid json');
+        $this->form->handleRequest($request);
+    }
+
+    public function testRequestWithoutStringShouldThrowException()
+    {
+        $this->setExpectedExceptionRegExp(
+          'InvalidArgumentException',
+          '/^Invalid argument: the submitted variable must be a string when you enable the json_format option.$/'
+        );
+        $request = $this->getRequest(['test']);
         $this->form->handleRequest($request);
     }
 

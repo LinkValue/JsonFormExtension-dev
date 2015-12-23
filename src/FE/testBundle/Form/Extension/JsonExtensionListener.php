@@ -18,6 +18,9 @@ class JsonExtensionListener implements EventSubscriberInterface
     public function onPreSubmit(FormEvent $event)
     {
         $data = $event->getData();
+        if (!is_string($data)) {
+            throw new \InvalidArgumentException('Invalid argument: the submitted variable must be a string when you enable the json_format option.');
+        }
         $baseData = $data;
         $data = @json_decode($data, true);
         if (null === $data) {

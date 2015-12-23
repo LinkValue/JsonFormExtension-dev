@@ -48,13 +48,28 @@ class JsonExtensionListenerTest extends \PHPUnit_Framework_TestCase
         \Phake::verify($this->formEvent, \Phake::times(1))->setData($data);
     }
 
-    public function testInvalidJsonShouldThrowHttpExceptionError()
+    public function testInvalidJsonShouldThrowInvalidArgumentExceptionError()
     {
         $this->setExpectedExceptionRegExp(
           'InvalidArgumentException',
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $json = 'invalid json';
+
+        \Phake::when($this->formEvent)
+            ->getData()
+            ->thenReturn($json);
+
+        $this->jsonExtensionListener->onPreSubmit($this->formEvent);
+    }
+
+    public function testEventWithoutStringShouldThrowInvalidArgumentExceptionError()
+    {
+        $this->setExpectedExceptionRegExp(
+          'InvalidArgumentException',
+          '/^Invalid argument: the submitted variable must be a string when you enable the json_format option.$/'
+        );
+        $json = ['invalid json'];
 
         \Phake::when($this->formEvent)
             ->getData()
