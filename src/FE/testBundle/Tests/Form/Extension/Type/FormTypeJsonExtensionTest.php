@@ -36,13 +36,14 @@ class FormTypeJsonExtensionTest extends \PHPUnit_Framework_TestCase
         $this->formTypeJsonExtension->configureOptions($resolver);
 
         \Phake::verify($resolver, \Phake::times(1))->setDefault('json_format', false);
+        \Phake::verify($resolver, \Phake::times(1))->setAllowedTypes('json_format', 'boolean');
     }
 
     public function testShouldAddRequestHandlerToBuilder()
     {
         $builder = \Phake::mock('Symfony\Component\Form\FormBuilderInterface');
 
-        $this->formTypeJsonExtension->buildForm($builder, []);
+        $this->formTypeJsonExtension->buildForm($builder, ['json_format' => true]);
 
         \Phake::verify($builder, \Phake::times(1))->setRequestHandler($this->requestHandler);
     }
@@ -61,15 +62,6 @@ class FormTypeJsonExtensionTest extends \PHPUnit_Framework_TestCase
         $builder = \Phake::mock('Symfony\Component\Form\FormBuilderInterface');
 
         $this->formTypeJsonExtension->buildForm($builder, ['json_format' => false]);
-
-        \Phake::verify($builder, \Phake::never())->addEventSubscriber(new JsonExtensionListener());
-    }
-
-    public function testShouldNotBindEventListenerWhenJsonFormatOptionIsNotSet()
-    {
-        $builder = \Phake::mock('Symfony\Component\Form\FormBuilderInterface');
-
-        $this->formTypeJsonExtension->buildForm($builder, ['other_option' => 'true']);
 
         \Phake::verify($builder, \Phake::never())->addEventSubscriber(new JsonExtensionListener());
     }
