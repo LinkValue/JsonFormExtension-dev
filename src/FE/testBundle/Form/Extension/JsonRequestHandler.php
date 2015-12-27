@@ -29,9 +29,7 @@ class JsonRequestHandler implements RequestHandlerInterface
         }
 
         if ($request->getContentType() !== 'json') {
-            $this->httpFoundationRequestHandler->handleRequest($form, $request);
-
-            return;
+            return $this->httpFoundationRequestHandler->handleRequest($form, $request);
         }
 
         $form->submit($request->getContent());
