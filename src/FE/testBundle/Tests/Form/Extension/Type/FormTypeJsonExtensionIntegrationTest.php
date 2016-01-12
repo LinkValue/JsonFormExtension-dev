@@ -20,6 +20,11 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
      */
     private $form;
 
+    /**
+     * @var Form
+     */
+    private $formWithoutJson;
+
     public function setUp()
     {
         static::bootKernel([]);
@@ -30,6 +35,11 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
                 null,
                 ['json_format' => true]
                 )
+            ->add('name', TextType::class)
+            ->add('lastname', TextType::class)
+            ->getForm();
+        $this->formWithoutJson = $this->container->get('form.factory')
+            ->createBuilder('Symfony\Component\Form\Extension\Core\Type\FormType')
             ->add('name', TextType::class)
             ->add('lastname', TextType::class)
             ->getForm();
@@ -46,10 +56,27 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
     public function testSubmitInvalidJsonShouldThrowException()
     {
         $this->setExpectedExceptionRegExp(
-          'Symfony\Component\HttpKernel\Exception\HttpException',
+          'InvalidArgumentException',
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $this->form->submit('invalid json');
+    }
+
+    public function testFormWithoutJsonShouldWorkNormally()
+    {
+        $this->formWithoutJson->submit(['name' => 'test1']);
+        $this->assertEquals(['name' => 'test1', 'lastname' => null], $this->formWithoutJson->getData());
+        $this->assertEquals(['name' => 'test1', 'lastname' => null], $this->formWithoutJson->getNormData());
+        $this->assertEquals(['name' => 'test1', 'lastname' => null], $this->formWithoutJson->getViewData());
+    }
+
+    public function testSubmitWithoutStringShouldThrowException()
+    {
+        $this->setExpectedExceptionRegExp(
+          'InvalidArgumentException',
+          '/^Invalid argument: the submitted variable must be a string when you enable the json_format option.$/'
+        );
+        $this->form->submit(['invalid json']);
     }
 
     public function testRequestWithValidJsonShouldPopulateForm()
@@ -64,10 +91,20 @@ class FormTypeJsonExtensionIntegrationTest extends KernelTestCase
     public function testRequestWithInvalidJsonShouldTHrowException()
     {
         $this->setExpectedExceptionRegExp(
-          'Symfony\Component\HttpKernel\Exception\HttpException',
+          'InvalidArgumentException',
           '/^Invalid submitted json data, error (.*) : (.*), json : invalid json$/'
         );
         $request = $this->getRequest('invalid json');
+        $this->form->handleRequest($request);
+    }
+
+    public function testRequestWithoutStringShouldThrowException()
+    {
+        $this->setExpectedExceptionRegExp(
+          'InvalidArgumentException',
+          '/^Invalid argument: the submitted variable must be a string when you enable the json_format option.$/'
+        );
+        $request = $this->getRequest(['test']);
         $this->form->handleRequest($request);
     }
 

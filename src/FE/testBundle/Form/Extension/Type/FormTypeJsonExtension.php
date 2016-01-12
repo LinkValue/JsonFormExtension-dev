@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\RequestHandlerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use FE\testBundle\Form\Extension\JsonExtensionListener;
 
 class FormTypeJsonExtension extends AbstractTypeExtension
@@ -29,7 +30,7 @@ class FormTypeJsonExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setRequestHandler($this->requestHandler);
-        if (array_key_exists('json_format', $options) && $options['json_format'] === true) {
+        if ($options['json_format']) {
             $builder->addEventSubscriber(new JsonExtensionListener());
         }
     }
@@ -40,6 +41,7 @@ class FormTypeJsonExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('json_format', false);
+        $resolver->setAllowedTypes('json_format', 'boolean');
     }
 
     /**
@@ -47,6 +49,6 @@ class FormTypeJsonExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'Symfony\Component\Form\Extension\Core\Type\FormType';
+        return FormType::class;
     }
 }

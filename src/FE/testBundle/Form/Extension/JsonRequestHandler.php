@@ -5,6 +5,7 @@ namespace FE\testBundle\Form\Extension;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
 use Symfony\Component\Form\RequestHandlerInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpFoundation\Request;
 
 class JsonRequestHandler implements RequestHandlerInterface
@@ -28,9 +29,7 @@ class JsonRequestHandler implements RequestHandlerInterface
         }
 
         if ($request->getContentType() !== 'json') {
-            $this->httpFoundationRequestHandler->handleRequest($form, $request);
-
-            return;
+            return $this->httpFoundationRequestHandler->handleRequest($form, $request);
         }
 
         $form->submit($request->getContent());

@@ -61,4 +61,11 @@ class JsonRequestHandlerTest extends \PHPUnit_Framework_TestCase
 
         \Phake::verify($this->httpFoundationRequestHandler, \Phake::times(1))->handleRequest($this->form, $this->request);
     }
+
+    public function testInvalidRequestTypeShouldThrowException()
+    {
+        $this->setExpectedException('Symfony\Component\Form\Exception\UnexpectedTypeException');
+
+        $this->jsonRequestHandler->handleRequest($this->form, ['request']);
+    }
 }
